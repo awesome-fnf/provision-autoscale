@@ -1,0 +1,27 @@
+version: v1
+type: flow
+steps:
+  # Pass step for check input
+  - type: pass
+    name: init
+    outputMappings:
+      - source: $input.payload.serviceName
+        target: serviceName
+      - source: $input.payload.functionName
+        target: functionName
+      - source: $input.payload.alias
+        target: alias
+      - source: $input.payload.provisionCount
+        target: provisionCount
+
+  # Invoke FC function
+  - type: task
+    name: ProvisionTask
+    resourceArn: acs:fc:::services/ProvisionAutoScaleService/functions/main
+    outputMappings:
+      - source: $local.resource
+        target: resource
+      - source: $local.target
+        target: target
+      - source: $local.current
+        target: current
